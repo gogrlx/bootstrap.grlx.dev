@@ -1,6 +1,28 @@
 #!/usr/bin/env bash
 set -e -o pipefail
-curl -s https://artifacts.grlx.dev/latest/sprout > /usr/local/bin/grlx-sprout
+
+arch=$(uname -m)
+
+case $arch in
+	"x86_64")
+		machine_arch="x86_64"
+		;;
+	"i686"|"i386")
+		machine_arch="x86"
+		;;
+	"aarch64"|"arm64"|"armv8")
+		machine_arch="arm64"
+		;;
+	"armv7l")
+		machine_arch="arm"
+		;;
+	*)
+		echo "Unknown machine architecture: $arch"
+		exit 1
+		;;
+esac
+
+curl -s "https://artifacts.grlx.dev/${machine_arch}/latest/sprout" > /usr/local/bin/grlx-sprout
 chmod +x /usr/local/bin/grlx-sprout
 
 cat << EOF > /etc/systemd/system/grlx-sprout.service
@@ -22,18 +44,18 @@ WantedBy=multi-user.target
 EOF
 
 if [ ! -f /etc/grlx/sprout ]; then
-  mkdir -p /etc/grlx
-  if [ -z "$FARMER_INTERFACE" ]; then
-	echo "FARMER_INTERFACE is not set. Please set it to the domain or IP of your farmer."
-	exit 1
-  fi
-  if [ -z "$FARMER_PORT" ]; then
-	  FARMER_PORT=5405
-  fi
-  cat << EOF > /etc/grlx/sprout
-farmerinterface: $FARMER_INTERFACE
-farmerurl: https://$FARMER_INTERFACE:$FARMER_PORT
-EOF
+	mkdir -p /etc/grlx
+	if [ -z "$FARMER_INTERFACE" ]; then
+		echo "FARMER_INTERFACE is not set. Please set it to the domain or IP of your farmer."
+		exit 1
+	fi
+	if [ -z "$FARMER_PORT" ]; then
+		FARMER_PORT=5405
+	fi
+	cat << EOF > /etc/grlx/sprout
+	farmerinterface: $FARMER_INTERFACE
+	farmerurl: https://$FARMER_INTERFACE:$FARMER_PORT
+	EOF
 fi
 
 
