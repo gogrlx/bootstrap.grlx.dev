@@ -1,4 +1,4 @@
-# Quickstart
+# grlx Quickstart
 
 Want to get up and running as quickly as possible to see what all the fuss is about?
 Use our bootstrap scripts!
