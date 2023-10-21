@@ -54,7 +54,7 @@ if [ ! -f /etc/grlx/farmer ]; then
 			tempdir="/tmp/grlx-farmer-gum"
 			mkdir -p "$tempdir"
 		fi
-		#trap 'rm -r "$tempdir"' EXIT
+		trap 'rm -r "$tempdir"' EXIT
 		case $machine_arch in
 			"amd64")
 				curl -f -L -s "https://github.com/charmbracelet/gum/releases/download/v0.11.0/gum_0.11.0_Linux_x86_64.tar.gz" > "$tempdir/gum.tar.gz"
@@ -66,8 +66,6 @@ if [ ! -f /etc/grlx/farmer ]; then
 				curl -f -L -s "https://github.com/charmbracelet/gum/releases/download/v0.11.0/gum_0.11.0_Linux_arm.tar.gz" > "$tempdir/gum.tar.gz"
 				;;
 		esac
-		echo "Installing gum..."
-		echo "$tempdir"
 		ls -ashil "$tempdir"
 		tar -C "$tempdir" -xzf "$tempdir/gum.tar.gz"
 		mv "$tempdir/gum" /usr/local/bin/gum
