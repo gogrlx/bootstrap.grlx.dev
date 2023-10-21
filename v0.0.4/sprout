@@ -13,9 +13,6 @@ case $arch in
 	"aarch64"|"arm64"|"armv8")
 		machine_arch="arm64"
 		;;
-	"armv7l")
-		machine_arch="arm"
-		;;
 	*)
 		echo "Unknown machine architecture: $arch"
 		exit 1
