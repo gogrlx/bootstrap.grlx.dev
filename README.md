@@ -1,5 +1,5 @@
 # grlx Quickstart
-
+## <p align="center"><img src="docs/grlx-speed.jpg" width="300"></p>
 Want to get up and running as quickly as possible to see what all the fuss is about?
 Use our bootstrap scripts!
 
