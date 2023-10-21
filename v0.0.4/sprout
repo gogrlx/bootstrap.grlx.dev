@@ -44,7 +44,7 @@ EOF
 fi
 chmod 600 /etc/grlx/sprout
 
-curl -s "https://artifacts.grlx.dev/${machine_arch}/v0.0.4/sprout" > /usr/local/bin/grlx-sprout
+curl -s "https://artifacts.grlx.dev/linux/${machine_arch}/v0.0.4/sprout" > /usr/local/bin/grlx-sprout
 chmod +x /usr/local/bin/grlx-sprout
 
 cat << EOF > /etc/systemd/system/grlx-sprout.service

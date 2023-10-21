@@ -26,7 +26,7 @@ esac
 # install farmer
 
 if [ ! -f /usr/local/bin/grlx-farmer ]; then
-	curl -f -L -s "https://artifacts.grlx.dev/${machine_arch}/latest/farmer" > /usr/local/bin/grlx-farmer
+	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/latest/farmer" > /usr/local/bin/grlx-farmer
 	chmod +x /usr/local/bin/grlx-farmer
 fi
 
