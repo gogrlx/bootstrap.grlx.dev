@@ -115,7 +115,7 @@ if [ ! -f /etc/grlx/farmer ]; then
 
 	cat << EOF > /etc/grlx/farmer
 certhosts:
-$(for host in "${CERTHOSTS[@]}"; do echo "	- $host"; done)
+$(for host in "${CERTHOSTS[@]}"; do echo "  - $host"; done)
 certificatevalidtime: 8760h0m0s
 configroot: /etc/grlx/
 farmerapiport: "$FARMER_API_PORT"
@@ -130,8 +130,8 @@ organization: $FARMER_ORGANIZATION
 rootca: /etc/grlx/pki/farmer/tls-rootca.pem
 rootcapriv: /etc/grlx/pki/farmer/tls-rootca-key.pem
 pubkeys:
-	admin:
-$(for key in "${ADMIN_PUBKEYS[@]}"; do echo "		- $key"; done)
+  admin:
+$(for key in "${ADMIN_PUBKEYS[@]}"; do echo "    - $key"; done)
 EOF
 
 fi
