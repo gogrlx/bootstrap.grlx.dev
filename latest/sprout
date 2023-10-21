@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -e -o pipefail
+curl -s https://artifacts.grlx.dev/latest/sprout > /usr/local/bin/grlx-sprout
+chmod +x /usr/local/bin/grlx-sprout
+
+cat << EOF > /etc/systemd/system/grlx-sprout.service
+[Unit]
+Description=grlx sprout
+Documentation=https://docs.grlx.dev
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/grlx-sprout
+Restart=always
+RestartSec=30
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+if [ ! -f /etc/grlx/sprout ]; then
+  mkdir -p /etc/grlx
+  if [ -z "$FARMER_INTERFACE" ]; then
+	echo "FARMER_INTERFACE is not set. Please set it to the domain or IP of your farmer."
+	exit 1
+  fi
+  if [ -z "$FARMER_PORT" ]; then
+	  FARMER_PORT=5405
+  fi
+  cat << EOF > /etc/grlx/sprout
+farmerinterface: $FARMER_INTERFACE
+farmerurl: https://$FARMER_INTERFACE:$FARMER_PORT
+EOF
+fi
+
+
+systemctl daemon-reload
+systemctl enable --now grlx-sprout
