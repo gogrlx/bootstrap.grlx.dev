@@ -8,7 +8,7 @@ case $arch in
 		machine_arch="x86_64"
 		;;
 	"i686"|"i386")
-		machine_arch="x86"
+		machine_arch="386"
 		;;
 	"aarch64"|"arm64"|"armv8")
 		machine_arch="arm64"

@@ -8,7 +8,7 @@ case $arch in
 		machine_arch="x86_64"
 		;;
 	"i686"|"i386")
-		machine_arch="x86"
+		machine_arch="386"
 		;;
 	"aarch64"|"arm64"|"armv8")
 		machine_arch="arm64"
@@ -62,6 +62,9 @@ if [ ! -f /etc/grlx/farmer ]; then
 		fi
 		#trap 'rm -r "$tempdir"' EXIT
 		case $machine_arch in
+			"386")
+				curl -f -L -s "https://github.com/charmbracelet/gum/releases/download/v0.11.0/gum_0.11.0_Linux_i386.tar.gz" > "$tempdir/gum.tar.gz"
+				;;
 			"x86_64")
 				curl -f -L -s "https://github.com/charmbracelet/gum/releases/download/v0.11.0/gum_0.11.0_Linux_x86_64.tar.gz" > "$tempdir/gum.tar.gz"
 				;;
