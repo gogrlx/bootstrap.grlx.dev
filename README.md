@@ -2,6 +2,8 @@
 ## <p align="center"><img src="docs/grlx-speed.jpg" width="300"></p>
 Want to get up and running as quickly as possible to see what all the fuss is about?
 Use our bootstrap scripts!
+Note that only Linux `sprout`s and `farmer`s are supported, but you can use the
+CLI from macOS as well.
 
 1. Download and initialize the command line utility from our releases to your dev machine.
 ```bash
@@ -25,9 +27,8 @@ Make sure the certificate host name matches the external-facing interface (a dom
 
 3. On all of your fleet nodes, you'll need to install the `sprout`.
 ```bash
-# or, just run as root instead of sudo
-# FARMER_BUS_PORT and FARMER_API_PORT variables are available in case you chose
-# to use different ports.
+# Set FARMER_INTERFACE to your farmer's domain name. FARMER_BUS_PORT and FARMER_API_PORT
+# variables are available in case you chose to use different ports.
 curl -L https://bootstrap.grlx.dev/latest/sprout | FARMER_INTERFACE=localhost sudo -E bash
 ```
 Once the sprout is up and running, return to the CLI.
