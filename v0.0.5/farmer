@@ -5,7 +5,7 @@ set -e -o pipefail
 arch=$(uname -m)
 case $arch in
 	"x86_64")
-		machine_arch="x86_64"
+		machine_arch="amd64"
 		;;
 	"aarch64"|"arm64"|"armv8")
 		machine_arch="arm64"
@@ -56,7 +56,7 @@ if [ ! -f /etc/grlx/farmer ]; then
 		fi
 		#trap 'rm -r "$tempdir"' EXIT
 		case $machine_arch in
-			"x86_64")
+			"amd64")
 				curl -f -L -s "https://github.com/charmbracelet/gum/releases/download/v0.11.0/gum_0.11.0_Linux_x86_64.tar.gz" > "$tempdir/gum.tar.gz"
 				;;
 			"arm64")
@@ -130,7 +130,7 @@ EOF
 
 fi
 useradd -r -s /usr/sbin/nologin farmer >/dev/null || true
-chown farmer:farmer /etc/grlx
+chown -R farmer:farmer /etc/grlx
 chmod 700 /etc/grlx
 systemctl daemon-reload
 systemctl enable --now grlx-farmer

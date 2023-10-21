@@ -5,7 +5,7 @@ arch=$(uname -m)
 
 case $arch in
 	"x86_64")
-		machine_arch="x86_64"
+		machine_arch="amd64"
 		;;
 	"i686"|"i386")
 		machine_arch="386"
