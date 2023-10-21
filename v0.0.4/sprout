@@ -22,6 +22,28 @@ case $arch in
 		;;
 esac
 
+if [ ! -f /etc/grlx/sprout ]; then
+	mkdir -p /etc/grlx
+	if [ -z "$FARMER_INTERFACE" ]; then
+		echo "FARMER_INTERFACE is not set. Please set it to the domain or IP of your farmer."
+		exit 1
+	fi
+	if [ -z "$FARMER_API_PORT" ]; then
+		FARMER_PORT=5405
+	fi
+	if [ -z "$FARMER_BUS_PORT" ]; then
+		FARMER_PORT=5406
+	fi
+
+	cat << EOF > /etc/grlx/sprout
+farmerinterface: $FARMER_INTERFACE
+farmerbusport: $FARMER_BUS_PORT
+farmerapiport: $FARMER_API_PORT
+farmerurl: https://$FARMER_INTERFACE:$FARMER_PORT
+EOF
+fi
+chmod 600 /etc/grlx/sprout
+
 curl -s "https://artifacts.grlx.dev/${machine_arch}/v0.0.4/sprout" > /usr/local/bin/grlx-sprout
 chmod +x /usr/local/bin/grlx-sprout
 
@@ -42,22 +64,6 @@ Group=root
 [Install]
 WantedBy=multi-user.target
 EOF
-
-if [ ! -f /etc/grlx/sprout ]; then
-	mkdir -p /etc/grlx
-	if [ -z "$FARMER_INTERFACE" ]; then
-		echo "FARMER_INTERFACE is not set. Please set it to the domain or IP of your farmer."
-		exit 1
-	fi
-	if [ -z "$FARMER_PORT" ]; then
-		FARMER_PORT=5405
-	fi
-	cat << EOF > /etc/grlx/sprout
-	farmerinterface: $FARMER_INTERFACE
-	farmerurl: https://$FARMER_INTERFACE:$FARMER_PORT
-	EOF
-fi
-
 
 systemctl daemon-reload
 systemctl enable --now grlx-sprout
