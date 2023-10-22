@@ -24,4 +24,4 @@ Sleep 4
 Type "./grlx -T \* cmd run --out json -- uname -a"
 Sleep 3
 Enter
-Sleep 4
+Sleep 8
