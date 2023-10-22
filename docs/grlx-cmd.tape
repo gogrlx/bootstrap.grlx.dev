@@ -5,6 +5,9 @@ Set Height 600
 Type "./grlx keys accept -A"
 Sleep 3
 Enter
+Hide
+Sleep 30
+Show
 Sleep 3
 Enter
 Sleep 3
@@ -18,7 +21,7 @@ Type "./grlx -T \* cmd run whoami"
 Sleep 2
 Enter
 Sleep 4
-Type "./grlx -T \* cmd run --out json -- uname -a | jq"
+Type "./grlx -T \* cmd run --out json -- uname -a"
 Sleep 3
 Enter
 Sleep 4
