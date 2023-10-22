@@ -15,7 +15,7 @@ You'll be asked some questions, such as which interface the `farmer` is listenin
 Set the interface to the domain name or IP address of the `farmer`.
 Once configured, the CLI prints out your administrator public key, which you'll need for the next step!
 
-## <p align="center"><img src="docs/grlx-install.gif"></p>
+![grlx install](docs/grlx-install.gif)
 2. On your control server, you'll need to install the `farmer`.
 ```bash
 # or, just run as root instead of sudo
@@ -26,7 +26,7 @@ For the quick start, it's recommended to use the default ports (make sure there'
 You'll be prompted for an admin public key, which you should have gotten from the prior step, and a certificate host name(s).
 Make sure the certificate host name matches the external-facing interface (a domain or IP address) as it will be used for TLS validation!
 
-## <p align="center"><img src="docs/farmer-install.gif"></p>
+![farmer install](docs/farmer-install.gif)
 3. On all of your fleet nodes, you'll need to install the `sprout`.
 ```bash
 # Set FARMER_INTERFACE to your farmer's domain name. FARMER_BUS_PORT and FARMER_API_PORT
@@ -35,7 +35,7 @@ curl -L https://bootstrap.grlx.dev/latest/sprout | FARMER_INTERFACE=localhost su
 ```
 Once the sprout is up and running, return to the CLI.
 
-## <p align="center"><img src="docs/sprout-install.gif"></p>
+![sprout install](docs/sprout-install.gif)
 
 4. If all is well, you're ready to `cook`!
 ```bash
@@ -46,4 +46,4 @@ grlx -T \* cmd run whoami
 grlx -T \* cmd run --out json -- uname -a
 ```
 
-## <p align="center"><img src="docs/grlx-cmd.gif"></p>
+![running commands](docs/grlx-cmd.gif)
