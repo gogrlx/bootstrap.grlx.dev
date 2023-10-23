@@ -17,10 +17,9 @@ Once configured, the CLI prints out your administrator public key, which you'll 
 *It's recommended you now add `grlx` somewhere in your `$PATH`.*
 
 ![grlx install](docs/grlx-install.gif)
-2. On your control server, you'll need to install the `farmer`.
+2. On your control server, you'll need to install the `farmer`. This script may also be run as `root` instead of using sudo.
 ```bash
-# or, just run as root instead of sudo
-curl -L https://bootstrap.grlx.dev/latest/farmer | sudo bash
+curl -L https://bootstrap.grlx.dev/latest/farmer | PATH=$PATH:/usr/sbin sudo -E bash
 ```
 You'll be asked several questions about the interface to listen on, which ports to use, etc.
 For the quick start, it's recommended to use the default ports (make sure there's no firewall in the way!).
