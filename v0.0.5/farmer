@@ -127,7 +127,7 @@ $(for key in "${ADMIN_PUBKEYS[@]}"; do echo "    - $key"; done)
 EOF
 
 fi
-useradd -r -s /usr/sbin/nologin farmer >/dev/null || true
+PATH=$PATH:/usr/sbin:/usr/bin useradd -r -s /usr/sbin/nologin farmer >/dev/null || true
 chown -R farmer:farmer /etc/grlx
 chmod 700 /etc/grlx
 systemctl daemon-reload
