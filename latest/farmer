@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e -o pipefail
-
+export PATH=$PATH:/usr/local/bin:/usr/sbin:/usr/bin
 # determine machine architecture
 arch=$(uname -m)
 case $arch in
@@ -26,7 +26,7 @@ esac
 # install farmer
 
 if [ ! -f /usr/local/bin/grlx-farmer ]; then
-	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/latest/farmer" > /usr/local/bin/grlx-farmer
+	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/v0.0.7/farmer" > /usr/local/bin/grlx-farmer
 	chmod +x /usr/local/bin/grlx-farmer
 fi
 
