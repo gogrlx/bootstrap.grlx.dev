@@ -3,7 +3,7 @@ Output farmer-install.gif
 Set FontSize 30
 Set Width 2500
 Set Height 600
-Type "curl -L https://bootstrap.grlx.dev/latest/farmer | sudo bash"
+Type "curl -L https://bootstrap.grlx.dev/latest/farmer | PATH=$PATH:/usr/sbin sudo bash"
 Sleep 2s
 Enter
 Sleep 1.5s
