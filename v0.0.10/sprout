@@ -39,7 +39,6 @@ if [ ! -f /etc/grlx/sprout ]; then
 farmerinterface: $FARMER_INTERFACE
 farmerbusport: $FARMER_BUS_PORT
 farmerapiport: $FARMER_API_PORT
-farmerurl: https://$FARMER_INTERFACE:$FARMER_PORT
 EOF
 fi
 chmod 600 /etc/grlx/sprout
