@@ -29,9 +29,9 @@ Make sure the certificate host name matches the external-facing interface (a dom
 ![farmer install](docs/farmer-install.gif)
 3. On all of your fleet nodes, you'll need to install the `sprout`.
 ```bash
-# Set FARMER_INTERFACE to your farmer's domain name. FARMER_BUS_PORT and FARMER_API_PORT
+# Set FARMERINTERFACE to your farmer's domain name. FARMERBUSPORT and FARMERAPIPORT
 # variables are available in case you chose to use different ports.
-curl -L https://bootstrap.grlx.dev/latest/sprout | FARMER_INTERFACE=localhost sudo -E bash
+curl -L https://bootstrap.grlx.dev/latest/sprout | FARMERINTERFACE=localhost sudo -E bash
 ```
 Once the sprout is up and running, return to the CLI.
 
