@@ -29,10 +29,10 @@ if [ ! -f /etc/grlx/sprout ]; then
 		exit 1
 	fi
 	if [ -z "$FARMERAPIPORT" ]; then
-		FARMERPORT=5405
+		FARMERAPIPORT=5405
 	fi
 	if [ -z "$FARMERBUSPORT" ]; then
-		FARMERPORT=5406
+		FARMERBUSPORT=5406
 	fi
 
 	cat << EOF > /etc/grlx/sprout
