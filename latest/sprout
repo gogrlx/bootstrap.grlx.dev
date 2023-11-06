@@ -22,20 +22,21 @@ case $arch in
 		;;
 esac
 
-if [ ! -f /etc/grlx/sprout ]; then
-	mkdir -p /etc/grlx
-	if [ -z "$FARMERINTERFACE" ]; then
-		echo "FARMERINTERFACE is not set. Please set it to the domain or IP of your farmer."
-		exit 1
-	fi
-	if [ -z "$FARMERAPIPORT" ]; then
-		FARMERAPIPORT=5405
-	fi
-	if [ -z "$FARMERBUSPORT" ]; then
-		FARMERBUSPORT=5406
-	fi
+if [ -z "$UNINSTALL" ]; then
+    if [ ! -f /etc/grlx/sprout ]; then
+        mkdir -p /etc/grlx
+        if [ -z "$FARMERINTERFACE" ]; then
+            echo "FARMERINTERFACE is not set. Please set it to the domain or IP of your farmer."
+            exit 1
+        fi
+        if [ -z "$FARMERAPIPORT" ]; then
+            FARMERAPIPORT=5405
+        fi
+        if [ -z "$FARMERBUSPORT" ]; then
+            FARMERBUSPORT=5406
+        fi
 
-	cat << EOF > /etc/grlx/sprout
+        cat << EOF > /etc/grlx/sprout
 farmerinterface: $FARMERINTERFACE
 farmerbusport: $FARMERBUSPORT
 farmerapiport: $FARMERAPIPORT
@@ -64,5 +65,11 @@ Group=root
 WantedBy=multi-user.target
 EOF
 
-systemctl daemon-reload
-systemctl enable --now grlx-sprout
+    systemctl daemon-reload
+    systemctl enable --now grlx-sprout
+else
+	systemctl disable --now grlx-sprout
+	rm -f /etc/systemd/system/grlx-sprout.service
+	rm -f /usr/local/bin/grlx-sprout
+	rm -rf /etc/grlx
+fi
