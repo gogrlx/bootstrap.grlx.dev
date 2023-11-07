@@ -138,6 +138,12 @@ EOF
 	PATH=$PATH:/usr/sbin:/usr/bin useradd -r -s /usr/sbin/nologin farmer >/dev/null || true
 	chown -R farmer:farmer /etc/grlx
 	chmod 700 /etc/grlx
+    # Create the job cache
+    mkdir -p /var/cache/grlx
+    chown farmer:farmer /var/cache/grlx
+    mkdir -p /srv/grlx/
+    # Add the recipe serve location
+    chown farmer:farmer /srv/grlx/
 	systemctl daemon-reload
 	systemctl enable --now grlx-farmer
 else
@@ -146,5 +152,7 @@ else
 	rm -f /etc/systemd/system/grlx-farmer.service
 	rm -f /usr/local/bin/grlx-farmer
 	rm -rf /etc/grlx
+    rm -rf /srv/grlx
+    rm -rf /var/cache/grlx
 	userdel farmer
 fi
