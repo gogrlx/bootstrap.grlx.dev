@@ -139,11 +139,11 @@ EOF
 	chown -R farmer:farmer /etc/grlx
 	chmod 700 /etc/grlx
     # Create the job cache
-    mkdir -p /var/cache/grlx
-    chown farmer:farmer /var/cache/grlx
+    mkdir -p /var/cache/grlx/farmer
+    chown -R farmer:farmer /var/cache/grlx
     mkdir -p /srv/grlx/
     # Add the recipe serve location
-    chown farmer:farmer /srv/grlx/
+    chown -R farmer:farmer /srv/grlx/
 	systemctl daemon-reload
 	systemctl enable --now grlx-farmer
 else
