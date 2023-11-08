@@ -141,7 +141,9 @@ EOF
     # Create the job cache
     mkdir -p /var/cache/grlx/farmer
     chown -R farmer:farmer /var/cache/grlx
-    mkdir -p /srv/grlx/
+	mkdir -p /srv/grlx/recipes/prod
+    chown -R farmer:farmer /srv/grlx/recipes
+	mkdir -p /srv/grlx/
     # Add the recipe serve location
     chown -R farmer:farmer /srv/grlx/
 	systemctl daemon-reload
