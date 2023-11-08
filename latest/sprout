@@ -73,4 +73,5 @@ else
 	rm -f /etc/systemd/system/grlx-sprout.service
 	rm -f /usr/local/bin/grlx-sprout
 	rm -rf /etc/grlx
+    rm -rf /var/cache/grlx
 fi
