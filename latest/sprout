@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e -o pipefail
+export PATH=$PATH:/usr/local/bin:/usr/sbin:/usr/bin
 
 arch=$(uname -m)
 
@@ -8,7 +9,7 @@ case $arch in
 		machine_arch="amd64"
 		;;
 	"i686"|"i386")
-		machine_arch="x86"
+		machine_arch="386"
 		;;
 	"aarch64"|"arm64"|"armv8")
 		machine_arch="arm64"
