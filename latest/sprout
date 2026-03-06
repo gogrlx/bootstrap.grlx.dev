@@ -72,7 +72,14 @@ EOF
 else
 	systemctl disable --now grlx-sprout
 	rm -f /etc/systemd/system/grlx-sprout.service
+	systemctl daemon-reload
 	rm -f /usr/local/bin/grlx-sprout
-	rm -rf /etc/grlx
-    rm -rf /var/cache/grlx
+	rm -f /etc/grlx/sprout
+	rm -rf /etc/grlx/pki/sprout
+	# Only remove /etc/grlx if empty (farmer config may still exist)
+	rmdir /etc/grlx/pki 2>/dev/null || true
+	rmdir /etc/grlx 2>/dev/null || true
+	rm -rf /var/cache/grlx/sprout
+	# Only remove /var/cache/grlx if empty
+	rmdir /var/cache/grlx 2>/dev/null || true
 fi
