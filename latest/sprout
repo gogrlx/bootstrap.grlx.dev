@@ -24,32 +24,32 @@ case $arch in
 esac
 
 if [ -z "$UNINSTALL" ]; then
-    if [ ! -f /etc/grlx/sprout ]; then
-        mkdir -p /etc/grlx
-        if [ -z "$FARMERINTERFACE" ]; then
-            echo "FARMERINTERFACE is not set. Please set it to the domain or IP of your farmer."
-            exit 1
-        fi
-        if [ -z "$FARMERAPIPORT" ]; then
-            FARMERAPIPORT=5405
-        fi
-        if [ -z "$FARMERBUSPORT" ]; then
-            FARMERBUSPORT=5406
-        fi
+	if [ ! -f /etc/grlx/sprout ]; then
+		mkdir -p /etc/grlx
+		if [ -z "$FARMERINTERFACE" ]; then
+			echo "FARMERINTERFACE is not set. Please set it to the domain or IP of your farmer."
+			exit 1
+		fi
+		if [ -z "$FARMERAPIPORT" ]; then
+			FARMERAPIPORT=5405
+		fi
+		if [ -z "$FARMERBUSPORT" ]; then
+			FARMERBUSPORT=5406
+		fi
 
-        cat << EOF > /etc/grlx/sprout
+		cat << EOF > /etc/grlx/sprout
 farmerinterface: $FARMERINTERFACE
 farmerbusport: $FARMERBUSPORT
 farmerapiport: $FARMERAPIPORT
 EOF
-fi
-chmod 600 /etc/grlx/sprout
+	fi
+	chmod 600 /etc/grlx/sprout
 
-systemctl stop grlx-sprout || true
-curl -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/sprout" > /usr/local/bin/grlx-sprout
-chmod +x /usr/local/bin/grlx-sprout
+	systemctl stop grlx-sprout || true
+	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/sprout" > /usr/local/bin/grlx-sprout
+	chmod +x /usr/local/bin/grlx-sprout
 
-cat << EOF > /etc/systemd/system/grlx-sprout.service
+	cat << EOF > /etc/systemd/system/grlx-sprout.service
 [Unit]
 Description=grlx sprout
 Documentation=https://docs.grlx.dev
@@ -67,8 +67,8 @@ Group=root
 WantedBy=multi-user.target
 EOF
 
-    systemctl daemon-reload
-    systemctl enable --now grlx-sprout
+	systemctl daemon-reload
+	systemctl enable --now grlx-sprout
 else
 	systemctl disable --now grlx-sprout
 	rm -f /etc/systemd/system/grlx-sprout.service
