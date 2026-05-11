@@ -15,7 +15,7 @@ CLI from macOS as well.
 1. Download and initialize the command line utility from our releases to your dev machine.
 ```bash
 # replace 'linux' with darwin if you're on macOS
-curl -L https://releases.grlx.dev/linux/amd64/latest/grlx > grlx && chmod +x grlx
+curl -fsSL https://releases.grlx.dev/linux/amd64/latest/grlx -o grlx && chmod +x grlx
 ./grlx init
 ```
 You'll be asked some questions, such as which interface the `farmer` is listening on, and which ports to use for communication.
@@ -27,7 +27,7 @@ Once configured, the CLI prints out your administrator public key, which you'll 
 
 2. On your control server, you'll need to install the `farmer`. This script may also be run as `root` instead of using sudo.
 ```bash
-curl -L https://bootstrap.grlx.dev/latest/farmer | sudo bash
+curl -fsSL https://bootstrap.grlx.dev/latest/farmer | sudo bash
 ```
 You'll be asked several questions about the interface to listen on, which ports to use, etc.
 For the quick start, it's recommended to use the default ports (make sure there's no firewall in the way!).
@@ -40,7 +40,7 @@ Make sure the certificate host name matches the external-facing interface (a dom
 ```bash
 # Set FARMERINTERFACE to your farmer's domain name. FARMERBUSPORT and FARMERAPIPORT
 # variables are available in case you chose to use different ports.
-curl -L https://bootstrap.grlx.dev/latest/sprout | FARMERINTERFACE=localhost sudo -E bash
+curl -fsSL https://bootstrap.grlx.dev/latest/sprout | FARMERINTERFACE=localhost sudo -E bash
 ```
 Once the sprout is up and running, return to the CLI.
 
@@ -63,7 +63,7 @@ Both scripts support environment variables for unattended installation:
 
 **Farmer:**
 ```bash
-curl -L https://bootstrap.grlx.dev/latest/farmer | \
+curl -fsSL https://bootstrap.grlx.dev/latest/farmer | \
   FARMERINTERFACE=0.0.0.0 \
   FARMERAPIPORT=5405 \
   FARMERBUSPORT=5406 \
@@ -75,7 +75,7 @@ curl -L https://bootstrap.grlx.dev/latest/farmer | \
 
 **Sprout:**
 ```bash
-curl -L https://bootstrap.grlx.dev/latest/sprout | \
+curl -fsSL https://bootstrap.grlx.dev/latest/sprout | \
   FARMERINTERFACE=farmer.example.com \
   FARMERAPIPORT=5405 \
   FARMERBUSPORT=5406 \
@@ -88,10 +88,10 @@ To uninstall either component, set the `UNINSTALL` environment variable:
 
 ```bash
 # Uninstall farmer
-curl -L https://bootstrap.grlx.dev/latest/farmer | UNINSTALL=1 sudo -E bash
+curl -fsSL https://bootstrap.grlx.dev/latest/farmer | UNINSTALL=1 sudo -E bash
 
 # Uninstall sprout
-curl -L https://bootstrap.grlx.dev/latest/sprout | UNINSTALL=1 sudo -E bash
+curl -fsSL https://bootstrap.grlx.dev/latest/sprout | UNINSTALL=1 sudo -E bash
 ```
 
 Each uninstall only removes its own files — running both components on the same host is safe.
