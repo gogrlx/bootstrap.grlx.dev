@@ -5,7 +5,7 @@ Set FontSize 30
 Set Width 1500
 Set Height 600
 # replace 'linux' with darwin if you're on macOS
-Type "curl -L https://releases.grlx.dev/linux/amd64/latest/grlx > grlx"
+Type "curl -fsSL https://releases.grlx.dev/linux/amd64/latest/grlx -o grlx"
 Enter
 Hide
 Sleep 45s
