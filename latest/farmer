@@ -25,10 +25,9 @@ esac
 
 # install farmer
 if [ -z "$UNINSTALL" ]; then
-	if [ ! -f /usr/local/bin/grlx-farmer ]; then
-		curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/farmer" > /usr/local/bin/grlx-farmer
-		chmod +x /usr/local/bin/grlx-farmer
-	fi
+	systemctl stop grlx-farmer || true
+	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/farmer" > /usr/local/bin/grlx-farmer
+	chmod +x /usr/local/bin/grlx-farmer
 
 	# install systemd service
 	cat << EOF > /etc/systemd/system/grlx-farmer.service
