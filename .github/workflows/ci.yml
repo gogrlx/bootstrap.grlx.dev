@@ -15,3 +15,5 @@ jobs:
         run: sudo apt-get install -y shellcheck
       - name: Lint latest scripts
         run: shellcheck latest/farmer latest/sprout
+      - name: Check latest script formatting
+        run: go run mvdan.cc/sh/v3/cmd/shfmt@latest -d latest/farmer latest/sprout
