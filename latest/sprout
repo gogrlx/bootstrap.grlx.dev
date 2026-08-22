@@ -5,22 +5,22 @@ export PATH=$PATH:/usr/local/bin:/usr/sbin:/usr/bin
 arch=$(uname -m)
 
 case $arch in
-	"x86_64")
-		machine_arch="amd64"
-		;;
-	"i686"|"i386")
-		machine_arch="386"
-		;;
-	"aarch64"|"arm64"|"armv8")
-		machine_arch="arm64"
-		;;
-	"armv7l")
-		machine_arch="arm"
-		;;
-	*)
-		echo "Unknown machine architecture: $arch"
-		exit 1
-		;;
+"x86_64")
+	machine_arch="amd64"
+	;;
+"i686" | "i386")
+	machine_arch="386"
+	;;
+"aarch64" | "arm64" | "armv8")
+	machine_arch="arm64"
+	;;
+"armv7l")
+	machine_arch="arm"
+	;;
+*)
+	echo "Unknown machine architecture: $arch"
+	exit 1
+	;;
 esac
 
 if [ -z "$UNINSTALL" ]; then
@@ -37,7 +37,7 @@ if [ -z "$UNINSTALL" ]; then
 			FARMERBUSPORT=5406
 		fi
 
-		cat << EOF > /etc/grlx/sprout
+		cat <<EOF >/etc/grlx/sprout
 farmerinterface: $FARMERINTERFACE
 farmerbusport: $FARMERBUSPORT
 farmerapiport: $FARMERAPIPORT
@@ -46,10 +46,10 @@ EOF
 	chmod 600 /etc/grlx/sprout
 
 	systemctl stop grlx-sprout || true
-	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/sprout" > /usr/local/bin/grlx-sprout
+	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/sprout" >/usr/local/bin/grlx-sprout
 	chmod +x /usr/local/bin/grlx-sprout
 
-	cat << EOF > /etc/systemd/system/grlx-sprout.service
+	cat <<EOF >/etc/systemd/system/grlx-sprout.service
 [Unit]
 Description=grlx sprout
 Documentation=https://docs.grlx.dev
