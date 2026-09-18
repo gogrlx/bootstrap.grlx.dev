@@ -74,7 +74,12 @@ EOF
 				;;
 			esac
 			tar -C "$tempdir" -xzf "$tempdir/gum.tar.gz"
-			mv "$tempdir/gum" /usr/local/bin/gum
+			gum_bin=$(find "$tempdir" -type f -name gum -print -quit)
+			if [ -z "$gum_bin" ]; then
+				echo "Unable to find gum binary in downloaded archive"
+				exit 1
+			fi
+			mv "$gum_bin" /usr/local/bin/gum
 			chmod +x /usr/local/bin/gum
 		fi
 
