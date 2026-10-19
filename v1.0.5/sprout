@@ -1,54 +1,55 @@
 #!/usr/bin/env bash
 set -e -o pipefail
+export PATH=$PATH:/usr/local/bin:/usr/sbin:/usr/bin
 
 arch=$(uname -m)
 
 case $arch in
-	"x86_64")
-		machine_arch="amd64"
-		;;
-	"i686"|"i386")
-		machine_arch="x86"
-		;;
-	"aarch64"|"arm64"|"armv8")
-		machine_arch="arm64"
-		;;
-	"armv7l")
-		machine_arch="arm"
-		;;
-	*)
-		echo "Unknown machine architecture: $arch"
-		exit 1
-		;;
+"x86_64")
+	machine_arch="amd64"
+	;;
+"i686" | "i386")
+	machine_arch="386"
+	;;
+"aarch64" | "arm64" | "armv8")
+	machine_arch="arm64"
+	;;
+"armv7l")
+	machine_arch="arm"
+	;;
+*)
+	echo "Unknown machine architecture: $arch"
+	exit 1
+	;;
 esac
 
 if [ -z "$UNINSTALL" ]; then
-    if [ ! -f /etc/grlx/sprout ]; then
-        mkdir -p /etc/grlx
-        if [ -z "$FARMERINTERFACE" ]; then
-            echo "FARMERINTERFACE is not set. Please set it to the domain or IP of your farmer."
-            exit 1
-        fi
-        if [ -z "$FARMERAPIPORT" ]; then
-            FARMERAPIPORT=5405
-        fi
-        if [ -z "$FARMERBUSPORT" ]; then
-            FARMERBUSPORT=5406
-        fi
+	if [ ! -f /etc/grlx/sprout ]; then
+		mkdir -p /etc/grlx
+		if [ -z "$FARMERINTERFACE" ]; then
+			echo "FARMERINTERFACE is not set. Please set it to the domain or IP of your farmer."
+			exit 1
+		fi
+		if [ -z "$FARMERAPIPORT" ]; then
+			FARMERAPIPORT=5405
+		fi
+		if [ -z "$FARMERBUSPORT" ]; then
+			FARMERBUSPORT=5406
+		fi
 
-        cat << EOF > /etc/grlx/sprout
+		cat <<EOF >/etc/grlx/sprout
 farmerinterface: $FARMERINTERFACE
 farmerbusport: $FARMERBUSPORT
 farmerapiport: $FARMERAPIPORT
 EOF
-fi
-chmod 600 /etc/grlx/sprout
+	fi
+	chmod 600 /etc/grlx/sprout
 
-systemctl stop grlx-sprout || true
-curl -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/sprout" > /usr/local/bin/grlx-sprout
-chmod +x /usr/local/bin/grlx-sprout
+	systemctl stop grlx-sprout || true
+	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/sprout" >/usr/local/bin/grlx-sprout
+	chmod +x /usr/local/bin/grlx-sprout
 
-cat << EOF > /etc/systemd/system/grlx-sprout.service
+	cat <<EOF >/etc/systemd/system/grlx-sprout.service
 [Unit]
 Description=grlx sprout
 Documentation=https://docs.grlx.dev
@@ -66,12 +67,19 @@ Group=root
 WantedBy=multi-user.target
 EOF
 
-    systemctl daemon-reload
-    systemctl enable --now grlx-sprout
+	systemctl daemon-reload
+	systemctl enable --now grlx-sprout
 else
 	systemctl disable --now grlx-sprout
 	rm -f /etc/systemd/system/grlx-sprout.service
+	systemctl daemon-reload
 	rm -f /usr/local/bin/grlx-sprout
-	rm -rf /etc/grlx
-    rm -rf /var/cache/grlx
+	rm -f /etc/grlx/sprout
+	rm -rf /etc/grlx/pki/sprout
+	# Only remove /etc/grlx if empty (farmer config may still exist)
+	rmdir /etc/grlx/pki 2>/dev/null || true
+	rmdir /etc/grlx 2>/dev/null || true
+	rm -rf /var/cache/grlx/sprout
+	# Only remove /var/cache/grlx if empty
+	rmdir /var/cache/grlx 2>/dev/null || true
 fi
