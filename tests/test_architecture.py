@@ -43,6 +43,7 @@ class ArchitectureTests(unittest.TestCase):
             download_log = sandbox / "download"
             result = subprocess.run(
                 ["bash"],
+                check=False,
                 input=script,
                 text=True,
                 capture_output=True,
