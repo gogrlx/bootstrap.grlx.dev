@@ -1,10 +1,10 @@
 """Run installers against fake host paths; never modify host services or files."""
 
 import os
-from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
