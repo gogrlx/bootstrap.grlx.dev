@@ -24,5 +24,5 @@ jobs:
         run: |
           diff -u "latest/farmer" "${CURRENT_VERSION}/farmer"
           diff -u "latest/sprout" "${CURRENT_VERSION}/sprout"
-      - name: Test failed downloads preserve installed binaries
+      - name: Test installer download safety and architecture selection
         run: python3 -m unittest discover -s tests
