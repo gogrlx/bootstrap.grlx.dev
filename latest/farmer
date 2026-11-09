@@ -24,9 +24,14 @@ esac
 
 # install farmer
 if [ -z "$UNINSTALL" ]; then
+	# Stage beside the destination so a failed download leaves the running binary intact.
+	binary_tmp=$(mktemp /usr/local/bin/.grlx-farmer.XXXXXX)
+	trap 'rm -f "$binary_tmp"' EXIT
+	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/farmer" >"$binary_tmp"
+	chmod 755 "$binary_tmp"
 	systemctl stop grlx-farmer || true
-	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/farmer" >/usr/local/bin/grlx-farmer
-	chmod +x /usr/local/bin/grlx-farmer
+	mv -f "$binary_tmp" /usr/local/bin/grlx-farmer
+	trap - EXIT
 
 	# install systemd service
 	cat <<EOF >/etc/systemd/system/grlx-farmer.service

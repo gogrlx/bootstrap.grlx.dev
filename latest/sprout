@@ -45,9 +45,14 @@ EOF
 	fi
 	chmod 600 /etc/grlx/sprout
 
+	# Stage beside the destination so a failed download leaves the running binary intact.
+	binary_tmp=$(mktemp /usr/local/bin/.grlx-sprout.XXXXXX)
+	trap 'rm -f "$binary_tmp"' EXIT
+	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/sprout" >"$binary_tmp"
+	chmod 755 "$binary_tmp"
 	systemctl stop grlx-sprout || true
-	curl -f -L -s "https://artifacts.grlx.dev/linux/${machine_arch}/v1.0.5/sprout" >/usr/local/bin/grlx-sprout
-	chmod +x /usr/local/bin/grlx-sprout
+	mv -f "$binary_tmp" /usr/local/bin/grlx-sprout
+	trap - EXIT
 
 	cat <<EOF >/etc/systemd/system/grlx-sprout.service
 [Unit]
