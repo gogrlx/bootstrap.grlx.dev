@@ -1,29 +1,30 @@
 #!/usr/bin/env bash
 set -e -o pipefail
 export PATH=$PATH:/usr/local/bin:/usr/sbin:/usr/bin
-# determine machine architecture
-arch=$(uname -m)
-case $arch in
-"x86_64")
-	machine_arch="amd64"
-	;;
-"i686" | "i386")
-	machine_arch="386"
-	;;
-"aarch64" | "arm64" | "armv8")
-	machine_arch="arm64"
-	;;
-"armv7l")
-	machine_arch="arm"
-	;;
-*)
-	echo "Unknown machine architecture: $arch"
-	exit 1
-	;;
-esac
 
 # install farmer
 if [ -z "$UNINSTALL" ]; then
+	# Architecture only matters when selecting a release to install.
+	arch=$(uname -m)
+	case $arch in
+	"x86_64")
+		machine_arch="amd64"
+		;;
+	"i686" | "i386")
+		machine_arch="386"
+		;;
+	"aarch64" | "arm64" | "armv8")
+		machine_arch="arm64"
+		;;
+	"armv7l")
+		machine_arch="arm"
+		;;
+	*)
+		echo "Unknown machine architecture: $arch"
+		exit 1
+		;;
+	esac
+
 	# Stage beside the destination so a failed download leaves the running binary intact.
 	binary_tmp=$(mktemp /usr/local/bin/.grlx-farmer.XXXXXX)
 	trap 'rm -f "$binary_tmp"' EXIT

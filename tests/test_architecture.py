@@ -61,6 +61,49 @@ class ArchitectureTests(unittest.TestCase):
             self.assertEqual(list(binary_dir.iterdir()), [])
             return result, download_log.read_text() if download_log.exists() else None
 
+    def test_uninstall_does_not_require_supported_architecture(self):
+        for version in ("latest", "v1.0.5"):
+            for component in ("farmer", "sprout"):
+                with self.subTest(
+                    version=version, component=component
+                ), tempfile.TemporaryDirectory() as directory:
+                    sandbox = Path(directory)
+                    mocks = sandbox / "mocks"
+                    mocks.mkdir()
+                    for name, body in {
+                        "uname": "printf riscv64",
+                        "systemctl": 'printf "%s\\n" "$*" >> "$SERVICE_LOG"',
+                        "rm": ":",
+                        "rmdir": ":",
+                        "userdel": ":",
+                        "curl": "exit 99",
+                    }.items():
+                        executable = mocks / name
+                        executable.write_text(f"#!/bin/bash\n{body}\n")
+                        executable.chmod(0o755)
+                    service_log = sandbox / "services"
+                    result = subprocess.run(
+                        ["bash"],
+                        input=(ROOT / version / component).read_text(),
+                        text=True,
+                        capture_output=True,
+                        timeout=10,
+                        check=False,
+                        env={
+                            **os.environ,
+                            "PATH": f"{mocks}:{os.environ['PATH']}",
+                            "UNINSTALL": "1",
+                            "SERVICE_LOG": str(service_log),
+                        },
+                    )
+                    self.assertEqual(
+                        result.returncode, 0, result.stdout + result.stderr
+                    )
+                    self.assertEqual(
+                        service_log.read_text().splitlines(),
+                        [f"disable --now grlx-{component}", "daemon-reload"],
+                    )
+
     def test_supported_architectures_select_release(self):
         for version in ("latest", "v1.0.5"):
             for component in ("farmer", "sprout"):
